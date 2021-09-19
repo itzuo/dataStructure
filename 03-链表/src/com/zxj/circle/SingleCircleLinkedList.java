@@ -1,19 +1,18 @@
-package com.zxj;
+package com.zxj.circle;
+
+import com.zxj.AbstractList;
 
 /**
- * 双向链表
+ * 单向循环链表
  */
-public class LinkedList<E> extends AbstractList<E>{
+public class SingleCircleLinkedList<E> extends AbstractList<E>{
 
 	private Node<E> first;
-	private Node<E> last;
 	
 	private static class Node<E>{
 		E element;
-		Node<E> prev;
 		Node<E> next;
-		public Node(Node<E> prev,E element, Node<E> next) {
-			this.prev = prev;
+		public Node(E element, Node<E> next) {
 			this.element = element;
 			this.next = next;
 		}
@@ -21,21 +20,7 @@ public class LinkedList<E> extends AbstractList<E>{
 		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
-			
-			if (prev != null) {
-				sb.append(prev.element);
-			} else {
-				sb.append("null");
-			}
-			
-			sb.append("_").append(element).append("_");
-
-			if (next != null) {
-				sb.append(next.element);
-			} else {
-				sb.append("null");
-			}
-			
+			sb.append(element).append("_").append(next.element);
 			return sb.toString();
 		}
 	}
@@ -56,51 +41,38 @@ public class LinkedList<E> extends AbstractList<E>{
 	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
-		
-		if(index == size) {// 往最后面添加元素
-			Node<E> oldLast = last;
-			last = new Node<>(oldLast,element,null);
-			// 如果最开始链表是空的，就是什么结点都没有
-			if(oldLast == null) {
-				first = last;
-			}else {
-				oldLast.next = last;
-			}
-		}else {
-			Node<E> next = findNode(index);//新添加结点的下一个结点
-			Node<E> prev = next.prev;//新添加结点的上一个结点
-			Node<E> node = new Node<>(prev,element,next);
-			next.prev = node;
+		if(index == 0) {
+			Node<E> newFirst = new Node<E>(element, first);
 			
-			if(index ==0) {//在0的位置插入结点
-				first = node;
-			}else {
-				prev.next = node;
-			}
+			//(size == 0)->表示链表中没有任何结点，findNode(size - 1)->寻找最后一个元素
+			Node<E> last = (size == 0) ? newFirst : findNode(size - 1);
+			last.next = newFirst;
+			first = newFirst;
+		}else {
+			Node<E> prev = findNode(index - 1);
+			prev.next = new Node<E>(element, prev.next);
 		}
 		size++;
 	}
 
 	@Override
 	public E remove(int index) {
-		rangeCheck(index);//如果链表中没有数据
-		
-		Node<E> node = findNode(index);
-		Node<E> prev = node.prev;
-		Node<E> next = node.next;
-		
-		if(prev == null) {// 删除0位置的结点
-			first = next;
+		rangeCheck(index);//如果链表中没有结点
+		Node<E> node = first;
+		if(index == 0) {
+			if(size == 1) {//如果链表中只有一个结点
+				first = null;
+			}else {
+				//这一句必须在first = first.next;上面执行
+				Node<E> last = findNode(size - 1);
+				first = first.next;
+				last.next = first;
+			}
 		}else {
-			prev.next = next;
+			Node<E> prev = findNode(index - 1);
+			node = prev.next;
+			prev.next = node.next;
 		}
-		
-		if(next == null) {// 删除最后一个结点
-			last = prev;
-		}else {
-			next.prev = prev;
-		}
-		
 		size--;
 		return node.element;
 	}
@@ -130,9 +102,8 @@ public class LinkedList<E> extends AbstractList<E>{
 
 	@Override
 	public void clear() {
-		size = 0;
 		first = null;
-		last = null;
+		size =0;
 	}
 	
 	/**
@@ -142,17 +113,10 @@ public class LinkedList<E> extends AbstractList<E>{
 	 */
 	private Node<E> findNode(int index){
 		rangeCheck(index);
-		Node<E> node;
-		if(index < (size >> 1)) {//小于size的一半
-			node = first;
-			for(int i=0;i < index;i++) {
-				node = node.next;
-			}
-		}else {//大于size的一半
-			node = last;
-			for(int i = size - 1;i > index;i--) {
-				node = node.prev;
-			}
+		
+		Node<E> node = first;
+		for(int i=0;i < index;i++) {
+			node = node.next;
 		}
 		return node;
 	}
@@ -171,6 +135,16 @@ public class LinkedList<E> extends AbstractList<E>{
 			
 			node = node.next;
 		}
+		
+		/*while(node != null){
+			if (node != first) {
+				string.append(", ");
+			}
+			
+			string.append(node.element);
+			node = node.next;
+		}*/
+		
 		string.append("]");
 		return string.toString();
 	}

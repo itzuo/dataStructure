@@ -1,12 +1,14 @@
 package com.zxj;
 
+import com.zxj.circle.SingleCircleLinkedList;
 import com.zxj.utils.Asserts;
 
 public class Main {
 
 	public static void main(String[] args) {
-		testList(new ArrayList<>());
-		testList(new LinkedList<>());
+//		testList(new ArrayList<>());
+//		testList(new LinkedList<>());
+		testList(new SingleCircleLinkedList<>());
 	}
 	
 	public static void testList(List<Integer> list) {
