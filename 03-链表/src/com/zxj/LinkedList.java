@@ -18,6 +18,27 @@ public class LinkedList<E> extends AbstractList<E>{
 			this.element = element;
 			this.next = next;
 		}
+		
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			
+			if (prev != null) {
+				sb.append(prev.element);
+			} else {
+				sb.append("null");
+			}
+			
+			sb.append("_").append(element).append("_");
+
+			if (next != null) {
+				sb.append(next.element);
+			} else {
+				sb.append("null");
+			}
+			
+			return sb.toString();
+		}
 	}
 
 	@Override
@@ -110,8 +131,8 @@ public class LinkedList<E> extends AbstractList<E>{
 
 	@Override
 	public void clear() {
-		first = null;
 		size = 0;
+		first = null;
 		last = null;
 	}
 	
@@ -147,20 +168,10 @@ public class LinkedList<E> extends AbstractList<E>{
 				string.append(", ");
 			}
 			
-			string.append(node.element);
+			string.append(node);
 			
 			node = node.next;
 		}
-		
-		/*while(node != null){
-			if (node != first) {
-				string.append(", ");
-			}
-			
-			string.append(node.element);
-			node = node.next;
-		}*/
-		
 		string.append("]");
 		return string.toString();
 	}
