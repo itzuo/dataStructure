@@ -1,14 +1,16 @@
-package com.zxj;
+package com.zxj.single;
+
+import com.zxj.AbstractList;
 
 /**
  * 增加一个虚拟头结点
  *
  */
-public class LinkedList2<E> extends AbstractList<E>{
+public class SingleLinkedList2<E> extends AbstractList<E>{
 
 	private Node<E> first;
 	
-	public LinkedList2() {
+	public SingleLinkedList2() {
 		first = new Node<>(null,null);
 	}
 	

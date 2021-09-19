@@ -1,6 +1,8 @@
-package com.zxj;
+package com.zxj.single;
 
-public class LinkedList<E> extends AbstractList<E>{
+import com.zxj.AbstractList;
+
+public class SingleLinkedList<E> extends AbstractList<E>{
 
 	
 	private Node<E> first;

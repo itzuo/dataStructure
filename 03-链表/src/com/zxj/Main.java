@@ -1,9 +1,11 @@
 package com.zxj;
 
+import com.zxj.single.SingleLinkedList;
+
 public class Main {
 
 	public static void main(String[] args) {
-		List<String> list = new LinkedList<String>();
+		List<String> list = new SingleLinkedList<String>();
 
 //		list.add(null);
 //		list.add("张三");
