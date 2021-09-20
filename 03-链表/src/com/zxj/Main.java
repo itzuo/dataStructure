@@ -5,13 +5,6 @@ import com.zxj.circle.SingleCircleLinkedList;
 import com.zxj.utils.Asserts;
 
 public class Main {
-
-	public static void main(String[] args) {
-//		testList(new ArrayList<>());
-//		testList(new LinkedList<>());
-//		testList(new SingleCircleLinkedList<>());
-		testList(new CircleLinkedList<>());
-	}
 	
 	public static void testList(List<Integer> list) {
 		list.add(11);
@@ -36,4 +29,28 @@ public class Main {
 		
 		System.out.println(list);
 	}
+	
+	static void josephus() {
+		CircleLinkedList<Integer> list = new CircleLinkedList<>();
+		for(int i =1;i <= 8;i++) {
+			list.add(i);
+		}
+		
+		list.reset();//指向头结点(指向1)
+		while (!list.isEmpty()) {
+			list.next();
+			list.next();
+			System.out.print(list.remove()+" ");
+		}
+	}
+
+	public static void main(String[] args) {
+//		testList(new ArrayList<>());
+//		testList(new LinkedList<>());
+//		testList(new SingleCircleLinkedList<>());
+//		testList(new CircleLinkedList<>());
+		josephus();
+	}
+	
+	
 }
