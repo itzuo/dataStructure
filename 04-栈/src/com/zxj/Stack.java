@@ -23,4 +23,8 @@ public class Stack<E>{
 	public E top() {// 官方的是peek()
 		return list.get(size() -1);
 	}
+	
+	public void clear() {
+		list.clear();
+	}
 }
