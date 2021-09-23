@@ -19,7 +19,7 @@ public class Main {
 		}
 		System.out.println(queue);
 		
-		for(int i = 15;i< 20;i++) {
+		for(int i = 15;i< 23;i++) {
 			queue.enQueue(i);
 		}
 		

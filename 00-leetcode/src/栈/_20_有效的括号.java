@@ -11,8 +11,6 @@ public class _20_有效的括号 {
 	}
 	
 	public static void main(String[] args) {
-		int t = 43 % 10;
-		int n = 43 / 10;
-		System.out.println("t="+t+",n="+n);
+		
 	}
 }
