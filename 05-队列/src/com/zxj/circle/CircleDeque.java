@@ -1,16 +1,15 @@
 package com.zxj.circle;
 
 /**
- * 循环队列
+ * 循环双端队列
  */
-public class CircleQueue<E> {
-	
+public class CircleDeque<E> {
 	private static final int DEFAULT_CAPACITY = 10;
 	private E[] elements;
 	private int size;
 	private int front;
 	
-	public CircleQueue() {
+	public CircleDeque() {
 		elements = (E[]) new Object[DEFAULT_CAPACITY];
 	}
 	public int size() {
@@ -21,11 +20,67 @@ public class CircleQueue<E> {
 		return size == 0;
 	}
 	
-	public void enQueue(E element) {
+	/**
+	 * 从队尾入队
+	 * @param element
+	 */
+	public void enQueueRear(E element) {
 		ensureCapacity(size +1);
 		
 		elements[index(size)] = element;
 		size++;
+	}
+	
+	/**
+	 * 从队头入队
+	 * @param element
+	 */
+	public void enQueueFront(E element) {
+		ensureCapacity(size +1);
+		
+		front = index(-1);
+		elements[front] = element;
+		size++;
+	}
+	
+	/**
+	 * 从队尾出队
+	 * @return
+	 */
+	public E deQueueRear() {
+		int rearIndex = index(size -1);
+		E rear = elements[rearIndex];
+		elements[rearIndex] = null;
+		size--;
+		return rear;
+	}
+	
+	/**
+	 * 从队头出队
+	 * @return
+	 */
+	public E deQueueFront() {
+		E frontElement = elements[front];
+		elements[front] = null;
+		front = index(1);
+		size--;
+		return frontElement;
+	}
+	
+	/**
+	 * 获取队列的头元素
+	 * @return
+	 */
+	public E front() {// 官方的是peekFirst()
+		return elements[front];
+	}
+	
+	/**
+	 * 获取队列的尾元素
+	 * @return
+	 */
+	public E rear() {// 官方的是peekLast()
+		return elements[index(size -1)];
 	}
 	
 	private void ensureCapacity(int capacity) {
@@ -46,21 +101,13 @@ public class CircleQueue<E> {
 		System.out.println(oldCapacity + "扩容为" + newCapacity);	
 	}
 	
-	public E deQueue() {
-		E frontElement = elements[front];
-		elements[front] = null;
-		front = index(1);
-		size--;
-		return frontElement;
-	}
-	
 	//索引映射分装
 	private int index(int index) {
-		return (front + index) % elements.length;
-	}
-	
-	public E front() {
-		return elements[front];
+		index += front;
+		if(index < 0) {
+			return index + elements.length;
+		}
+		return index % elements.length;
 	}
 	
 	@Override

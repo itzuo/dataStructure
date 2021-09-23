@@ -1,11 +1,33 @@
 package com.zxj;
 
+import com.zxj.circle.CircleDeque;
 import com.zxj.circle.CircleQueue;
 
 public class Main {
 
 	public static void main(String[] args) {
-		testCircleQeque();
+		testCircleDeque();
+	}
+	
+	public static void testCircleDeque() {
+		CircleDeque<Integer> queue = new CircleDeque<Integer>();
+		for(int i = 0;i< 10;i++) {
+			queue.enQueueFront(i + 1);
+			queue.enQueueRear(i + 100);
+		}
+		
+		for(int i = 0;i< 3;i++) {
+			queue.deQueueFront();
+			queue.deQueueRear();
+		}
+		System.out.println(queue);
+		
+		queue.enQueueFront(11);
+		queue.enQueueFront(12);
+		System.out.println(queue);
+		while(!queue.isEmpty()) {
+			System.out.print(queue.deQueueFront()+" ");
+		}
 	}
 	
 	public static void testCircleQeque() {
