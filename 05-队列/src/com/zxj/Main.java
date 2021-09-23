@@ -6,7 +6,18 @@ import com.zxj.circle.CircleQueue;
 public class Main {
 
 	public static void main(String[] args) {
-		testCircleDeque();
+		int n = 19;
+		int m = 10;
+		if(n >=m) {
+			System.out.println(n - m);
+		}else {
+			System.out.println(n);
+		}
+		
+		//需要满足：m >0,n >=0,n < 2m
+		System.out.println(n - (n >= m ? m :0));
+		
+		System.out.println(n % m);
 	}
 	
 	public static void testCircleDeque() {

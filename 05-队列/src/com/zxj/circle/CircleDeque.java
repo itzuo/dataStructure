@@ -83,6 +83,14 @@ public class CircleDeque<E> {
 		return elements[index(size -1)];
 	}
 	
+	public void clear() {
+		for(int i =0;i < size;i++) {
+			elements[index(i)] = null;
+		}
+		size = 0;
+		front = 0;
+	}
+	
 	private void ensureCapacity(int capacity) {
 		int oldCapacity = elements.length;
 		if(oldCapacity >= capacity) return;
@@ -107,7 +115,7 @@ public class CircleDeque<E> {
 		if(index < 0) {
 			return index + elements.length;
 		}
-		return index % elements.length;
+		return index -(index >= elements.length? elements.length : 0);
 	}
 	
 	@Override

@@ -56,11 +56,20 @@ public class CircleQueue<E> {
 	
 	//索引映射分装
 	private int index(int index) {
-		return (front + index) % elements.length;
+		index += front;
+		return index -(index >= elements.length? elements.length : 0);
 	}
 	
 	public E front() {
 		return elements[front];
+	}
+	
+	public void clear() {
+		for(int i =0;i < size;i++) {
+			elements[index(i)] = null;
+		}
+		size = 0;
+		front = 0;
 	}
 	
 	@Override
