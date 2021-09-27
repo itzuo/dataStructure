@@ -1,12 +1,24 @@
 package com.zxj;
 
+import java.util.Comparator;
+
 /**
  * 二叉搜索树
  */
+@SuppressWarnings("unchecked")
 public class BinarySearchTree<E> {
 	
 	private Node<E> root;
 	private int size;
+	private Comparator<E> comparator;
+	
+	public BinarySearchTree() {
+		this(null);
+	}
+	
+	public BinarySearchTree(Comparator<E> comparator){
+		this.comparator = comparator;
+	}
 
 	// 元素的数量
 	public int size() {
@@ -77,7 +89,10 @@ public class BinarySearchTree<E> {
 	 * @return 返回值等于0，代表e1和e2相等；返回值大于0，代表e1大于e2；返回值小于于0，代表e1小于e2
 	 */
 	private int compare(E e1,E e2) {
-		return 0;
+		if (comparator != null) {
+			return comparator.compare(e1, e2);
+		}
+		return ((Comparable<E>)e1).compareTo(e2);
 	}
 	
 	private void elementNotNullCheck(E element) {
