@@ -2,11 +2,13 @@ package com.zxj;
 
 import java.util.Comparator;
 
+import com.zxj.printer.BinaryTreeInfo;
+
 /**
  * 二叉搜索树
  */
 @SuppressWarnings("unchecked")
-public class BinarySearchTree<E> {
+public class BinarySearchTree<E> implements BinaryTreeInfo{
 	
 	private Node<E> root;
 	private int size;
@@ -58,6 +60,7 @@ public class BinarySearchTree<E> {
 			}else if(cmp < 0) {
 				node = node.left;
 			}else {// 相等
+				node.element = element;
 				return;
 			}
 		}
@@ -110,5 +113,29 @@ public class BinarySearchTree<E> {
 			this.parent = parent;
 		}
 		
+	}
+
+	@Override
+	public Object root() {
+		// 根节点是谁
+		return root;
+	}
+
+	@Override
+	public Object left(Object node) {
+		// 如何查找左节点
+		return ((Node<E>)node).left;
+	}
+
+	@Override
+	public Object right(Object node) {
+		// 如何查找右节点
+		return ((Node<E>)node).right;
+	}
+
+	@Override
+	public Object string(Object node) {
+		// 如何打印每个节点
+		return ((Node<E>)node).element;
 	}
 }
