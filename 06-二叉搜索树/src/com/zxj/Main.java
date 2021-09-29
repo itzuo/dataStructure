@@ -8,6 +8,11 @@ import com.zxj.printer.BinaryTrees;
 public class Main {
 
 	public static void main(String[] args) {
+		
+		testPreorderTraversal();
+	}
+	
+	static void test() {
 		Integer data[] = {
 				7,4,9,2,5,8,11,3
 		};
@@ -16,11 +21,10 @@ public class Main {
 		for (int i = 0; i < data.length; i++) {
 			bst1.add(new Person("name"+data[i],data[i]));
 		}
-//		BinaryTrees.print(bst1);
-		test();
+		BinaryTrees.print(bst1);
 	}
 
-	static void test() {
+	static void test01() {
 		BinarySearchTree<Integer> bst = new BinarySearchTree<>();
 		for (int i = 0; i < 80; i++) {
 			bst.add((int)(Math.random() * 100));
@@ -28,6 +32,24 @@ public class Main {
 		// BinaryTrees.print(bst);
 		String str = BinaryTrees.printString(bst);
 		Files.writeToFile("D:/1.txt", str,true);
+	}
+	
+	static void testPreorderTraversal() {
+		Integer data[] = {
+				7,4,2,1,3,5,9,8,11,10,12
+		};
+		
+		BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+		for (int i = 0; i < data.length; i++) {
+			bst.add(data[i]);
+		}
+		BinaryTrees.print(bst);
+		System.out.println("\n");
+		
+//		bst.preorderTraversal();
+//		bst.inorderTraversal();
+//		bst.postorderTraversal();
+		bst.levelOrderTraversal();
 	}
 	
 	private static class PersonComparator implements Comparator<Person> {
