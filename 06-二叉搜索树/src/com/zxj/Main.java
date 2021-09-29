@@ -53,29 +53,33 @@ public class Main {
 //		bst.levelOrderTraversal();
 		bst.preorder(new Visitor<Integer>() {
 			@Override
-			public void visit(Integer element) {
+			public boolean visit(Integer element) {
 				System.out.print(element+" ");
+				return element == 2 ? true:false;
 			}
 		});
 		System.out.println();
 		bst.inorder(new Visitor<Integer>() {
 			@Override
-			public void visit(Integer element) {
+			public boolean visit(Integer element) {
 				System.out.print(element+" ");
+				return element == 4 ? true:false;
 			}
 		});
 		System.out.println();
 		bst.postorder(new Visitor<Integer>() {
 			@Override
-			public void visit(Integer element) {
+			public boolean visit(Integer element) {
 				System.out.print(element+" ");
+				return element ==2 ? true:false;
 			}
 		});
 		System.out.println();
 		bst.levelOrder(new Visitor<Integer>() {
 			@Override
-			public void visit(Integer element) {
+			public boolean visit(Integer element) {
 				System.out.print(element+" ");
+				return element ==2 ? true:false;
 			}
 		});
 	}

@@ -104,12 +104,13 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 	}*/
 	
 	public void preorder(Visitor<E> visitor) {
+		if(visitor == null) return;
 		preorder(root,visitor);
 	}
 	
 	private void preorder(Node<E> node,Visitor<E> visitor) {
-		if(node == null || visitor == null) return;
-		visitor.visit(node.element);
+		if(node == null || visitor.stop) return;
+		visitor.stop = visitor.visit(node.element);
 		preorder(node.left,visitor);
 		preorder(node.right,visitor);
 	}
@@ -128,14 +129,18 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 		inorderTraversal(node.right);
 	}*/
 	
-	public void  inorder(Visitor<E> visitor) {
+	public void inorder(Visitor<E> visitor) {
+		if(visitor == null) return;
 		inorder(root,visitor);
 	}
 	
-	private void  inorder(Node<E> node,Visitor<E> visitor) {
-		if(node == null || visitor == null) return;
+	private void inorder(Node<E> node,Visitor<E> visitor) {
+		//这个visitor.stop是停止的递归遍历
+		if(node == null || visitor.stop) return;
 		inorder(node.left,visitor);
-		visitor.visit(node.element);
+		//这个visitor.stop停止的是外界的打印
+		if(visitor.stop) return;
+		visitor.stop = visitor.visit(node.element);
 		inorder(node.right,visitor);
 	}
 	
@@ -153,15 +158,17 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 		System.out.println(node.element);
 	}*/
 	
-	public void  postorder(Visitor<E> visitor) {
-		 postorder(root,visitor);
+	public void postorder(Visitor<E> visitor) {
+		if(visitor == null) return;
+		postorder(root,visitor);
 	}
 	
-	private void  postorder(Node<E> node,Visitor<E> visitor) {
-		if(node == null || visitor == null) return;
-		 postorder(node.left,visitor);
-		 postorder(node.right,visitor);
-		 visitor.visit(node.element);
+	private void postorder(Node<E> node,Visitor<E> visitor) {
+		if(node == null || visitor.stop) return;
+		postorder(node.left,visitor);
+		postorder(node.right,visitor);
+		if(visitor.stop) return;
+		visitor.stop = visitor.visit(node.element);
 	}
 	
 	/**
@@ -191,7 +198,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 		
 		while(!queue.isEmpty()) {
 			Node<E> node = queue.poll();
-			visitor.visit(node.element);
+			if(visitor.visit(node.element)) return;
 			if(node.left != null) {
 				queue.offer(node.left);
 			}
@@ -219,8 +226,12 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 			throw new IllegalArgumentException("element must not be null !");
 	}
 	
-	public static interface Visitor<E> {
-		void visit(E element);
+	public static abstract class Visitor<E> {
+		boolean stop;
+		/**
+		 * @return 如果返回true，就代表停止遍历
+		 */
+		public abstract boolean visit(E element);
 	}
 	
 	private static class Node<E> {
