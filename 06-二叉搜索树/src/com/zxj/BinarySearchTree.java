@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.w3c.dom.Node;
+
 import com.zxj.printer.BinaryTreeInfo;
 
 /**
@@ -90,7 +92,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 	/**
 	 * 前序遍历
 	 */
-	public void preorderTraversal() {
+	/*public void preorderTraversal() {
 		preorderTraversal(root);
 	}
 	
@@ -99,12 +101,23 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 		System.out.println(node.element);
 		preorderTraversal(node.left);
 		preorderTraversal(node.right);
+	}*/
+	
+	public void preorder(Visitor<E> visitor) {
+		preorder(root,visitor);
+	}
+	
+	private void preorder(Node<E> node,Visitor<E> visitor) {
+		if(node == null || visitor == null) return;
+		visitor.visit(node.element);
+		preorder(node.left,visitor);
+		preorder(node.right,visitor);
 	}
 	
 	/**
 	 * 中序遍历
 	 */
-	public void inorderTraversal() {
+	/*public void inorderTraversal() {
 		inorderTraversal(root);
 	}
 	
@@ -113,12 +126,23 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 		inorderTraversal(node.left);
 		System.out.println(node.element);
 		inorderTraversal(node.right);
+	}*/
+	
+	public void  inorder(Visitor<E> visitor) {
+		inorder(root,visitor);
+	}
+	
+	private void  inorder(Node<E> node,Visitor<E> visitor) {
+		if(node == null || visitor == null) return;
+		inorder(node.left,visitor);
+		visitor.visit(node.element);
+		inorder(node.right,visitor);
 	}
 	
 	/**
 	 * 后序遍历
 	 */
-	public void postorderTraversal() {
+	/*public void postorderTraversal() {
 		postorderTraversal(root);
 	}
 	
@@ -127,12 +151,23 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 		postorderTraversal(node.left);
 		postorderTraversal(node.right);
 		System.out.println(node.element);
+	}*/
+	
+	public void  postorder(Visitor<E> visitor) {
+		 postorder(root,visitor);
+	}
+	
+	private void  postorder(Node<E> node,Visitor<E> visitor) {
+		if(node == null || visitor == null) return;
+		 postorder(node.left,visitor);
+		 postorder(node.right,visitor);
+		 visitor.visit(node.element);
 	}
 	
 	/**
 	 * 层序遍历
 	 */
-	public void levelOrderTraversal() {
+	/*public void levelOrderTraversal() {
 		if(root == null) return;
 		Queue<Node<E>> queue = new LinkedList<>();
 		queue.offer(root);
@@ -147,8 +182,25 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 				queue.offer(node.right);
 			}
 		}
-	}
+	}*/
 	
+	public void levelOrder(Visitor<E> visitor) {
+		if(root == null || visitor == null) return;
+		Queue<Node<E>> queue = new LinkedList<>();
+		queue.offer(root);
+		
+		while(!queue.isEmpty()) {
+			Node<E> node = queue.poll();
+			visitor.visit(node.element);
+			if(node.left != null) {
+				queue.offer(node.left);
+			}
+			if(node.right != null) {
+				queue.offer(node.right);
+			}
+		}
+	}
+
 	/**
 	 * 
 	 * @param e1
@@ -165,6 +217,10 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 	private void elementNotNullCheck(E element) {
 		if(element == null)
 			throw new IllegalArgumentException("element must not be null !");
+	}
+	
+	public static interface Visitor<E> {
+		void visit(E element);
 	}
 	
 	private static class Node<E> {

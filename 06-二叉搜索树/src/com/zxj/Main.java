@@ -2,6 +2,7 @@ package com.zxj;
 
 import java.util.Comparator;
 
+import com.zxj.BinarySearchTree.Visitor;
 import com.zxj.file.Files;
 import com.zxj.printer.BinaryTrees;
 
@@ -49,7 +50,34 @@ public class Main {
 //		bst.preorderTraversal();
 //		bst.inorderTraversal();
 //		bst.postorderTraversal();
-		bst.levelOrderTraversal();
+//		bst.levelOrderTraversal();
+		bst.preorder(new Visitor<Integer>() {
+			@Override
+			public void visit(Integer element) {
+				System.out.print(element+" ");
+			}
+		});
+		System.out.println();
+		bst.inorder(new Visitor<Integer>() {
+			@Override
+			public void visit(Integer element) {
+				System.out.print(element+" ");
+			}
+		});
+		System.out.println();
+		bst.postorder(new Visitor<Integer>() {
+			@Override
+			public void visit(Integer element) {
+				System.out.print(element+" ");
+			}
+		});
+		System.out.println();
+		bst.levelOrder(new Visitor<Integer>() {
+			@Override
+			public void visit(Integer element) {
+				System.out.print(element+" ");
+			}
+		});
 	}
 	
 	private static class PersonComparator implements Comparator<Person> {
