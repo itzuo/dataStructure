@@ -46,6 +46,8 @@ public class Main {
 		}
 		BinaryTrees.print(bst);
 		System.out.println("\n");
+		System.out.println("树的高度："+bst.height());
+		System.out.println("\n");
 		
 //		bst.preorderTraversal();
 //		bst.inorderTraversal();
