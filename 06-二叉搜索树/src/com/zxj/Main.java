@@ -37,7 +37,9 @@ public class Main {
 	
 	static void testPreorderTraversal() {
 		Integer data[] = {
-				7,4,2,1,3,5,9,8,11,10,12
+//				7,4,2,1,3,5,9,8,11,10,12
+//				7,4,9,2,5
+				7,4,9,2,1
 		};
 		
 		BinarySearchTree<Integer> bst = new BinarySearchTree<>();
@@ -47,6 +49,7 @@ public class Main {
 		BinaryTrees.print(bst);
 		System.out.println("\n");
 		System.out.println("树的高度："+bst.height());
+		System.out.println("是否是完全二叉树："+bst.isComplete());
 		System.out.println("\n");
 		
 //		bst.preorderTraversal();
