@@ -336,6 +336,28 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 		return 1 + Math.max(height(node.left),height(node.right));
 	}
 	
+	private Node<E> predecessor(Node<E> node){
+		if(node == null) return null;
+		
+		// 前驱节点在左子树当中(left.right.right.right...)
+		Node<E> p = node.left;
+		if(p != null) {
+			while (p.right != null) {
+				p = p.right;
+			}
+			return p;
+		}
+		
+		// 从父节点、祖父节点中寻找前驱节点
+		while(node.parent != null && node == node.parent.left) {
+			//该节点的父节点不为空，并且该节点是父节点的左孩子
+			node = node.parent;
+		}
+		// 第一种情况：node.parent == null
+		// 第二种情况：node == node.parent.right
+		return node.parent;
+	}
+	
 	private static class Node<E> {
 		E element;
 		Node<E> left;
