@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import com.zxj.file.Files;
 import com.zxj.printer.BinaryTrees;
-import com.zxj.tree.BinarySearchTree;
+import com.zxj.tree.BST;
 import com.zxj.tree.BinaryTree.Visitor;
 
 public class Main {
@@ -18,7 +18,7 @@ public class Main {
 				7,4,9,2,5,8,11,3,12,1
 		};
 		
-		BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+		BST<Integer> bst = new BST<>();
 		for (int i = 0; i < data.length; i++) {
 			bst.add(data[i]);
 		}
@@ -34,7 +34,7 @@ public class Main {
 				7,4,9,2,5,8,11,3
 		};
 		
-		BinarySearchTree<Person> bst1 = new BinarySearchTree<>();
+		BST<Person> bst1 = new BST<>();
 		for (int i = 0; i < data.length; i++) {
 			bst1.add(new Person("name"+data[i],data[i]));
 		}
@@ -42,7 +42,7 @@ public class Main {
 	}
 
 	static void test01() {
-		BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+		BST<Integer> bst = new BST<>();
 		for (int i = 0; i < 80; i++) {
 			bst.add((int)(Math.random() * 100));
 		}
@@ -58,7 +58,7 @@ public class Main {
 				7,4,9,2,1
 		};
 		
-		BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+		BST<Integer> bst = new BST<>();
 		for (int i = 0; i < data.length; i++) {
 			bst.add(data[i]);
 		}

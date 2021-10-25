@@ -6,16 +6,16 @@ import java.util.Comparator;
  * 二叉搜索树BST
  */
 @SuppressWarnings("unchecked")
-public class BinarySearchTree<E> extends BinaryTree<E> {
+public class BST<E> extends BinaryTree<E> {
 	
 	
 	private Comparator<E> comparator;
 	
-	public BinarySearchTree() {
+	public BST() {
 		this(null);
 	}
 	
-	public BinarySearchTree(Comparator<E> comparator){
+	public BST(Comparator<E> comparator){
 		this.comparator = comparator;
 	}
 	
