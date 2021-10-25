@@ -35,7 +35,8 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 	
 	// 清空所有元素
 	public void clear() {
-		
+		root = null;
+		size = 0;
 	}
 	
 	// 添加元素
@@ -133,7 +134,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 
 	 // 是否包含某元素
 	public boolean contains(E element) {
-		return false;
+		return findNode(element) != null;
 	}
 	
 	/**
@@ -481,7 +482,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo{
 	@Override
 	public Object string(Object node) {
 		Node<E> myNode = (Node<E>)node;
-		String parentString;
+		String parentString = null;
 		if(myNode.parent != null) {
 			parentString = myNode.parent.element.toString();
 		}
