@@ -364,11 +364,12 @@ public class BinaryTree<E> implements BinaryTreeInfo{
 	
 	@Override
 	public Object string(Object node) {
-		Node<E> myNode = (Node<E>)node;
+		/*Node<E> myNode = (Node<E>)node;
 		String parentString = null;
 		if(myNode.parent != null) {
 			parentString = myNode.parent.element.toString();
 		}
-		return myNode.element + "_p(" + parentString + ")";
+		return myNode.element + "_p(" + parentString + ")";*/
+		return node;
 	}
 }

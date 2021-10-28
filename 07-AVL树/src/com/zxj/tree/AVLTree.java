@@ -2,6 +2,8 @@ package com.zxj.tree;
 
 import java.util.Comparator;
 
+import com.zxj.tree.BinaryTree.Node;
+
 @SuppressWarnings({"rawtypes","unchecked"})
 public class AVLTree<E> extends BST<E>{
 
@@ -144,6 +146,15 @@ public class AVLTree<E> extends BST<E>{
 			if(leftHeight > rightHeight) return left;
 			if(leftHeight < rightHeight) return right;
 			return isLeftChild() ? left : right;
+		}
+		
+		@Override
+		public String toString() {
+			String parentString = null;
+			if(parent != null) {
+				parentString = parent.element.toString();
+			}
+			return element + "_p(" + parentString + ")_h("+height+")";
 		}
 	}
 }
