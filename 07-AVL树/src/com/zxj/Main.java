@@ -10,7 +10,7 @@ public class Main {
 	}
 	static void test() {
 		Integer data[] = {
-				7,4,9,2,5,8,11,3,12,1
+				85,19,69,3,7,99,95,2,1,70,44,58,11,21,14,93,57,4,56
 		};
 		
 		AVLTree<Integer> avl = new AVLTree<>();
@@ -19,5 +19,4 @@ public class Main {
 		}
 		BinaryTrees.print(avl);
 	}
-	
 }

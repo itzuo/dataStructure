@@ -2,7 +2,7 @@ package com.zxj.tree;
 
 import java.util.Comparator;
 
-@SuppressWarnings({"unused","rawtypes","unchecked"})
+@SuppressWarnings({"rawtypes","unchecked"})
 public class AVLTree<E> extends BST<E>{
 
 	public AVLTree() {
@@ -66,12 +66,51 @@ public class AVLTree<E> extends BST<E>{
 		}
 	}
 	
-	private void rotateLeft(Node<E> node) {
-		
+	private void rotateLeft(Node<E> g) {
+		// 因为是左旋转，那么p节点肯定是g节点的右子树
+		Node<E> p = g.right;
+		Node<E> child = p.left;
+		g.right = child;
+		p.left = g;
+		afterRotate(g,p,child);
 	}
 	
-	private void rotateRight(Node<E> node) {
+	private void rotateRight(Node<E> g) {
+		Node<E> p = g.left;
+		Node<E> child = p.right;
+		g.left = child;
+		p.right = g;
+		afterRotate(g,p,child);
+	}
+	
+	/**
+	 * 公共代码，不管左旋转、右旋转，都要执行
+	 * @param g 失衡节点
+	 * @param p 失衡节点的tallerChild
+	 * @param child g和p需要交换的子树(本来是p的子树，后面会变成g的子树)
+	 */
+	private void afterRotate(Node<E> g, Node<E> p, Node<E> child) {
+		// 让p成为这棵子树的根节点
+		p.parent = g.parent;
+		if(g.isLeftChild()) {
+			g.parent.left = p;
+		}else if(g.isRightChild()) {
+			g.parent.right = p;
+		}else {// g是root节点
+			root = p;
+		}
 		
+		// 更新child的parent
+		if(child != null) {
+			child.parent = g;
+		}
+		
+		// 更新g的parent
+		g.parent = p;
+		
+		// 更新高度(先更新比较矮的g，再更新比较高的p)
+		updateHeight(g);
+		updateHeight(p);
 	}
 	
 	private static class AVLNode<E> extends Node<E>{
