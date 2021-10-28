@@ -53,6 +53,61 @@ public class AVLTree<E> extends BST<E>{
 		Node<E> n = ((AVLNode)p).tallerChild();
 		if(p.isLeftChild()) {// L
 			if(n.isLeftChild()) {// LL
+				rotate(g, n, n.right, p, p.right, g);
+			}else {// LR
+				rotate(g, p, n.left, n, n.right, g);
+			}
+		}else {// R
+			if(n.isLeftChild()) {// RL
+				rotate(g, g, n.left, n, n.right, p);
+			}else {// RR
+				rotate(g, g, p.left, p, n.left, n);
+			}
+		}
+	}
+
+	private void rotate(
+			Node<E> r,// 子树的根节点
+			Node<E> b,Node<E> c,
+			Node<E> d,
+			Node<E> e,Node<E> f) {
+		// 让d成为这棵树的根节点
+		d.parent = r.parent;
+		if(r.isLeftChild()) {
+			r.parent.left = d;
+		}else if(r.isRightChild()) {
+			r.parent.right = d;
+		}else {
+			root = d;
+		}
+		
+		// b-c
+		b.right = c;
+		if(c != null) c.parent = b;
+		updateHeight(b);
+		
+		// e-f
+		f.left = e;
+		if(e != null) e.parent = f;
+		updateHeight(f);
+		
+		//b-d-f
+		d.left = b;
+		d.right = f;
+		b.parent = d;
+		f.parent = d;
+		updateHeight(d);
+	}
+	
+	/**
+	 * 恢复平衡
+	 * @param node 高度最低的那个不平衡节点
+	 */
+	private void reblalance2(Node<E> g) {
+		Node<E> p = ((AVLNode)g).tallerChild();
+		Node<E> n = ((AVLNode)p).tallerChild();
+		if(p.isLeftChild()) {// L
+			if(n.isLeftChild()) {// LL
 				rotateRight(g);
 			}else {// LR
 				rotateLeft(p);
