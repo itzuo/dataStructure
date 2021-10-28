@@ -25,6 +25,10 @@ public class BinaryTree<E> implements BinaryTreeInfo{
 		size = 0;
 	}
 	
+	protected Node<E> createNode(E element, Node<E> parent) {
+		return new Node<>(element, parent);// 默认返回通用节点
+	}
+	
 	/**
 	 * 前序遍历
 	 */
@@ -309,6 +313,7 @@ public class BinaryTree<E> implements BinaryTreeInfo{
 		Node<E> left;
 		Node<E> right;
 		Node<E> parent;
+	
 		public Node(E element, Node<E> parent) {
 			this.element = element;
 			this.parent = parent;
@@ -322,6 +327,14 @@ public class BinaryTree<E> implements BinaryTreeInfo{
 		// 是否有左右两个结点
 		public boolean hasTwoChildren() {
 			return left != null && right != null;
+		}
+		
+		public boolean isLeftChild() {
+			return parent != null && this == parent.left;
+		}
+		
+		public boolean isRightChild() {
+			return parent != null && this == parent.right;
 		}
 	}
 	
