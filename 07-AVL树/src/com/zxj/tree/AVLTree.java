@@ -2,8 +2,6 @@ package com.zxj.tree;
 
 import java.util.Comparator;
 
-import com.zxj.tree.BinaryTree.Node;
-
 @SuppressWarnings({"rawtypes","unchecked"})
 public class AVLTree<E> extends BST<E>{
 
@@ -26,6 +24,19 @@ public class AVLTree<E> extends BST<E>{
 				reblalance(node);
 				// 整棵树恢复平衡
 				break;
+			}
+		}
+	}
+	
+	@Override
+	protected void afterRemove(Node<E> node) {
+		while((node = node.parent) != null) {
+			if(isBalanced(node)) {
+				// 更新高度
+				updateHeight(node);
+			}else {
+				// 恢复平衡
+				reblalance(node);
 			}
 		}
 	}
