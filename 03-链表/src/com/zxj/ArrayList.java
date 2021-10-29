@@ -2,22 +2,22 @@ package com.zxj;
 
 public class ArrayList<E> extends AbstractList<E>{
 
-/**
- * 所有的元素
- */
-private E[] elements;
-
-private static final int DEFAULT_CAPACITY = 10;
-
-@SuppressWarnings("unchecked")
-public ArrayList(int capaticy) {
-	capaticy = (capaticy < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capaticy;
-	elements = (E[]) new Object[capaticy];
-}
-
-public ArrayList() {
-	this(DEFAULT_CAPACITY);
-}
+	/**
+	 * 所有的元素
+	 */
+	private E[] elements;
+	
+	private static final int DEFAULT_CAPACITY = 10;
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList(int capaticy) {
+		capaticy = (capaticy < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capaticy;
+		elements = (E[]) new Object[capaticy];
+	}
+	
+	public ArrayList() {
+		this(DEFAULT_CAPACITY);
+	}
 	
 	/**
 	 * 清除所有元素

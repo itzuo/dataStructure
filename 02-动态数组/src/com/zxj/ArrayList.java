@@ -1,27 +1,27 @@
 package com.zxj;
 
 public class ArrayList<E> {
-/**
- * 元素的数量
- */
-private int size;
-/**
- * 所有的元素
- */
-private E[] elements;
-
-private static final int DEFAULT_CAPACITY = 10;
-private static final int ELEMENT_NOT_FOUND = -1;
-
-@SuppressWarnings("unchecked")
-public ArrayList(int capaticy) {
-	capaticy = (capaticy < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capaticy;
-	elements = (E[]) new Object[capaticy];
-}
-
-public ArrayList() {
-	this(DEFAULT_CAPACITY);
-}
+	/**
+	 * 元素的数量
+	 */
+	private int size;
+	/**
+	 * 所有的元素
+	 */
+	private E[] elements;
+	
+	private static final int DEFAULT_CAPACITY = 10;
+	private static final int ELEMENT_NOT_FOUND = -1;
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList(int capaticy) {
+		capaticy = (capaticy < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capaticy;
+		elements = (E[]) new Object[capaticy];
+	}
+	
+	public ArrayList() {
+		this(DEFAULT_CAPACITY);
+	}
 	
 	/**
 	 * 清除所有元素
