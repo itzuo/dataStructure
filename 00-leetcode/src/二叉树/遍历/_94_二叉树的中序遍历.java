@@ -1,8 +1,10 @@
-package 二叉树;
+package 二叉树.遍历;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import 二叉树.TreeNode;
 
 /**
  * https://leetcode-cn.com/problems/binary-tree-inorder-traversal/

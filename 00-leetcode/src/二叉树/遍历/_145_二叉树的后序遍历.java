@@ -1,9 +1,11 @@
-package 二叉树;
+package 二叉树.遍历;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+
+import 二叉树.TreeNode;
 
 /**
  * https://leetcode-cn.com/problems/binary-tree-postorder-traversal/
@@ -22,14 +24,14 @@ public class _145_二叉树的后序遍历 {
 	}
 	
 	// 迭代(https://leetcode-cn.com/problems/binary-tree-postorder-traversal/solution/jian-dan-yi-dong-javac-pythonjs-er-cha-s-btwx/)
-	public List<Integer> postorderTraversal01(TreeNode root) {
+	public static List<Integer> postorderTraversal01(TreeNode root) {
 		List<Integer> res = new ArrayList<Integer>();
 		if (root == null) return res;
 		Stack<TreeNode> stack = new Stack<>();
 		stack.push(root);
 		while(!stack.isEmpty()) {
 			TreeNode node = stack.pop();
-			res.add(node.val);
+			res.add(0,node.val);
 			if(node.left != null) {
 				stack.push(node.left);
 			}
@@ -37,7 +39,7 @@ public class _145_二叉树的后序遍历 {
 				stack.push(node.right);
 			}
 		}
-		Collections.reverse(res);
+//		Collections.reverse(res);
 		return res;
 	}
 	
@@ -66,4 +68,20 @@ public class _145_二叉树的后序遍历 {
 	        }
 	        return res;
 	}
+	
+	public static void main(String[] args) {
+		TreeNode node1 = new TreeNode(1);
+		TreeNode node3 = new TreeNode(3);
+		TreeNode node5 = new TreeNode(5);
+		TreeNode node10 = new TreeNode(10);
+		TreeNode node12 = new TreeNode(12);
+		TreeNode node11 = new TreeNode(11,node10,node12);
+		TreeNode node8 = new TreeNode(8);
+		TreeNode node2 = new TreeNode(2,node1,node3);
+		TreeNode node9 = new TreeNode(9,node8,node11);
+		TreeNode node4 = new TreeNode(4,node2,node5);
+		TreeNode root = new TreeNode(7,node4,node9);
+		System.out.println(postorderTraversal01(root));
+	}
+	
 }

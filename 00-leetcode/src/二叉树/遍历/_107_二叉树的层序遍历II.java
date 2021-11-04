@@ -1,16 +1,17 @@
-package 二叉树;
+package 二叉树.遍历;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import 二叉树.TreeNode;
+
 /**
- * https://leetcode-cn.com/problems/binary-tree-level-order-traversal/
+ * https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/
  */
-public class _102_二叉树的层序遍历 {
-	
-	public List<List<Integer>> levelOrder(TreeNode root) {
+public class _107_二叉树的层序遍历II {
+	public List<List<Integer>> levelOrderBottom(TreeNode root) {
 		List<List<Integer>> res = new ArrayList<>();
 		if(root == null) return res;
 		Queue<TreeNode> queue = new LinkedList<>();
@@ -31,7 +32,7 @@ public class _102_二叉树的层序遍历 {
 					queue.offer(node.right);
 				}
 			}
-			res.add(level);//将level的list加入最终返回结果中
+			res.add(0,level);//将level的list加入最终返回结果中
 		}
 		return res;
 	}
