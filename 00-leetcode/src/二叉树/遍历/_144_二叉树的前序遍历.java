@@ -75,24 +75,5 @@ public class _144_二叉树的前序遍历 {
 		_144_二叉树的前序遍历 test = new _144_二叉树的前序遍历();
 		System.out.println(test.preorderTraversal02(root));
 		
-		setAIDetections(DETECT_FACE|DETECT_BODY|DETECT_FACE);
-	}
-	static int DETECT_HAND = 0x0001;
-	static int DETECT_BODY = 0x0002;
-	static int DETECT_FACE = 0x0004;
-    
-	public static void setAIDetections(int flag) {
-		System.out.println("flag:"+flag);
-		System.out.println("===="+(flag & DETECT_HAND));
-		if((flag & DETECT_HAND) == DETECT_HAND) {
-			System.out.println("DETECT_HAND");
-		}
-		if((flag & DETECT_BODY) == DETECT_BODY) {
-			System.out.println("DETECT_BODY");
-		}
-		
-		if((flag & DETECT_FACE) == DETECT_FACE) {
-			System.out.println("DETECT_FACE");
-		}
 	}
 }

@@ -1,7 +1,6 @@
 package 二叉树.遍历;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
