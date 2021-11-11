@@ -21,7 +21,7 @@ public class RBTree<E> extends BBST<E>{
 	protected void afterAdd(Node<E> node) {
 		Node<E> parent = node.parent;
 		
-		// 添加的是根节点
+		// 添加的是根节点或者上溢到达了根节点
 		if(parent == null) {
 			black(node);
 			return;
@@ -33,18 +33,17 @@ public class RBTree<E> extends BBST<E>{
 		// 叔父节点
 		Node<E> uncle = parent.sibling();
 		// 祖父节点
-		Node<E> grand = parent.parent;
-		if(isRed(uncle)) {// 叔父节点是红色
+		Node<E> grand = red(parent.parent);
+		if(isRed(uncle)) {// 叔父节点是红色【B树节点上溢】
 			black(parent);
 			black(uncle);
 			// 把祖父节点当做是新添加的节点
-			afterAdd(red(grand));
+			afterAdd(grand);
 			return;
 		}
 		
 		// 叔父节点不是红色 
 		if (parent.isLeftChild()) {// L
-			red(grand);
 			if(node.isLeftChild()) {// LL
 				black(parent);
 			}else {// LR
@@ -53,13 +52,11 @@ public class RBTree<E> extends BBST<E>{
 			}
 			rotateRight(grand);
 		}else {// R
-			red(grand);
 			if(node.isLeftChild()) {// RL
 				black(node);
 				rotateRight(parent);
 			}else {// RR
 				black(parent);
-				red(grand);
 			}
 			rotateLeft(grand);
 		}
@@ -92,11 +89,25 @@ public class RBTree<E> extends BBST<E>{
 		return colorOf(node) == RED;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	protected Node<E> createNode(E element, Node<E> parent) {
+		return new RBNode(element, parent);
+	}
+	
 	private static class RBNode<E> extends Node<E>{
 		boolean color = RED;
 		public RBNode(E element, Node<E> parent) {
 			super(element, parent);
 		}
 		
+		@Override
+		public String toString() {
+			String str = "";
+			if (color == RED) {
+				str = "R_";
+			}
+			return str + element.toString();
+		}
 	}
 }
