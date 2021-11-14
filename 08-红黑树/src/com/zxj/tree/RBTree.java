@@ -2,6 +2,8 @@ package com.zxj.tree;
 
 import java.util.Comparator;
 
+import com.zxj.tree.BinaryTree.Node;
+
 /**
  * RedBlackTree
  */
@@ -60,6 +62,28 @@ public class RBTree<E> extends BBST<E>{
 			}
 			rotateLeft(grand);
 		}
+	}
+	
+	@Override
+	protected void afterRemove(Node<E> node,Node<E> replacement) {
+		// 如果删除的节点是红色
+		if(isRed(node)) return;
+		
+		// 用以取代node的子节点是红色
+		if(isRed(replacement)) {
+			black(replacement);
+			return;
+		}
+		
+		Node<E> parent = node.parent;
+		// 删除的是根节点
+		if(parent == null) return;
+		
+		// 删除的是黑色叶子节点
+		Node<E> sibling = node.sibling();
+		boolean left = parent.left == null;
+		
+		
 	}
 	
 	private RBNode<E> color(Node<E> node,boolean color){

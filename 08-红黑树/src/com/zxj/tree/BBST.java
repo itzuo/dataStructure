@@ -53,8 +53,6 @@ public class BBST<E> extends BST<E> {
 		
 		// 更新g的parent
 		g.parent = p;
-		
-		
 	}
 	
 	protected void rotate(
