@@ -29,9 +29,13 @@ public class _94_二叉树的中序遍历 {
 		Stack<TreeNode> stack = new Stack<>();
 		TreeNode cur = root;
 		while(cur!= null || !stack.isEmpty()) {
+			//不断往左子树方向走，每走一次就将当前节点保存到栈中
+			//这是模拟递归的调用
 			if(cur != null) {
 				stack.push(cur);
 				cur = cur.left;
+			//当前节点为空，说明左边走到头了，从栈中弹出节点并保存
+			//然后转向右边节点，继续上面整个过程
 			}else {
 				cur = stack.pop();
 				res.add(cur.val);
