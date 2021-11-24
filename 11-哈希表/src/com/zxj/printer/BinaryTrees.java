@@ -1,10 +1,5 @@
 package com.zxj.printer;
 
-/**
- * 
- * @author MJ Lee
- *
- */
 public final class BinaryTrees {
 
 	private BinaryTrees() {

@@ -17,8 +17,6 @@ package com.zxj.printer;
  │  │  └──35
  └──12
     └──9
- 
- * @author MJ Lee
  *
  */
 public class InorderPrinter extends Printer {
