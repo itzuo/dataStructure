@@ -1,11 +1,13 @@
 package com.zxj.map;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
-@SuppressWarnings("unchecked")
+import com.zxj.printer.BinaryTreeInfo;
+import com.zxj.printer.BinaryTrees;
+
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class HashMap<K, V> implements Map<K, V> {
 	private static final boolean RED = false;
 	private static final boolean BLACK = true;
@@ -52,10 +54,39 @@ public class HashMap<K, V> implements Map<K, V> {
 		Node<K, V> parent = root;
 		Node<K, V> node = root;
 		int cmp = 0;
+		K k1 = key;
 		int h1 = key == null ? 0 :key.hashCode();
+		Node<K, V> result = null;
+		boolean searched = false; // 是否已经搜索过这个key
 		do {
-			cmp = compare(key, node.key,h1,node.hash);
 			parent = node;
+			K k2 = node.key;
+			int h2 = node.hash;
+			if (h1 > h2) {
+				cmp = 1;
+			} else if (h1 < h2) {
+				cmp = -1;
+			} else if (Objects.equals(k1, k2)) {
+				cmp = 0;
+			} else if (k1 != null && k2 != null 
+					&& k1.getClass() == k2.getClass()
+					&& k1 instanceof Comparable
+					&& (cmp = ((Comparable) k1).compareTo(k2)) != 0) {
+
+			} else if (searched) { // 已经扫描了底层
+				cmp = System.identityHashCode(k1) - System.identityHashCode(k2);
+			} else { // searched == false; 还没有扫描，然后再根据内存地址大小决定左右
+				if ((node.left != null && (result = findNode(node.left, k1)) != null)
+						|| (node.right != null && (result = findNode(node.right, k1)) != null)) {
+					// 已经存在这个key
+					node = result;
+					cmp = 0;
+				} else { // 不存在这个key
+					searched = true;
+					cmp = System.identityHashCode(k1) - System.identityHashCode(k2);
+				}
+			}
+			
 			if (cmp > 0) {
 				node = node.right;
 			} else if (cmp < 0) {
@@ -154,6 +185,7 @@ public class HashMap<K, V> implements Map<K, V> {
 			// 用后继节点的值覆盖度为2的节点的值
 			node.key = s.key;
 			node.value = s.value;
+			node.hash = s.hash;
 			// 删除后继节点
 			node = s;
 		}
@@ -290,14 +322,38 @@ public class HashMap<K, V> implements Map<K, V> {
 	}
 	
 	private Node<K, V> findNode(K key) {
-		Node<K, V> node = table[index(key)];
-		int h1 = key == null ? 0 : key.hashCode();
+		Node<K, V> root = table[index(key)];
+		return root == null ? null : findNode(root,key);
+	}
+	
+	private Node<K, V> findNode(Node<K, V> node ,K k1) {
+		int h1 = k1 == null ? 0 : k1.hashCode();
+		Node<K, V> result = null;  
 		while (node != null) {
-			int cmp = compare(key, node.key,h1,node.hash);
-			if(cmp == 0) return node;
-			if (cmp > 0) {
+			int h2 = node.hash;
+			K k2 = node.key;
+			// 先比较哈希值
+			if(h1 > h2) {
 				node = node.right;
-			} else if (cmp < 0) {
+			}else if(h1 < h2){
+				node = node.left;
+			}else if(Objects.equals(k1, k2)) {
+				return node;
+			}else if(k1 != null && k2 != null
+					&& k1.getClass() == k2.getClass()
+					&& k1 instanceof Comparable) {
+				int cmp = ((Comparable) k1).compareTo(k2);
+				if(cmp > 0) {
+					node = node.right;
+				}else if(cmp < 0) {
+					node = node.left;
+				}else {
+					return node;
+				}
+			}else if(node.right != null && (result = findNode(node.right,k1)) != null){ 
+				// 哈希值相等，但不具备可比较性，也不equals
+				return result;
+			}else {// 只能往左边找
 				node = node.left;
 			}
 		}
@@ -321,7 +377,9 @@ public class HashMap<K, V> implements Map<K, V> {
 		if(Objects.equals(k1, k2)) return 0;
 		// 哈希值相等，但是不equals
 		// 比较类名
-		if(k1 != null && k2 != null) {
+		if(k1 != null && k2 != null 
+				&& k1.getClass() == k2.getClass()
+				&& k1 instanceof Comparable) {
 			String k1Cls = k1.getClass().getName();
 			String k2Cls = k2.getClass().getName();
 			result = k1Cls.compareTo(k2Cls);
@@ -497,6 +555,41 @@ public class HashMap<K, V> implements Map<K, V> {
 			}
 			
 			return null;
+		}
+		
+		@Override
+		public String toString() {
+			return "Node_"+key+"_"+value;
+		}
+	}
+	
+	public void print() {
+		if (size == 0) return;
+		for (int i = 0; i < table.length; i++) {
+			final Node<K, V> root = table[i];
+			System.out.println("【index = " + i + "】");
+			BinaryTrees.println(new BinaryTreeInfo() {
+				@Override
+				public Object string(Object node) {
+					return node;
+				}
+				
+				@Override
+				public Object root() {
+					return root;
+				}
+				
+				@Override
+				public Object right(Object node) {
+					return ((Node<K, V>)node).right;
+				}
+				
+				@Override
+				public Object left(Object node) {
+					return ((Node<K, V>)node).left;
+				}
+			});
+			System.out.println("---------------------------------------------------");
 		}
 	}
 }
