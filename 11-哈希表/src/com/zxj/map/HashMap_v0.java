@@ -8,15 +8,14 @@ import com.zxj.printer.BinaryTreeInfo;
 import com.zxj.printer.BinaryTrees;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class HashMap<K, V> implements Map<K, V> {
+public class HashMap_v0<K, V> implements Map<K, V> {
 	private static final boolean RED = false;
 	private static final boolean BLACK = true;
 	private static final int DEFAULT_CAPACITY = 1 << 4;
-	private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 	private int size;
 	private Node<K,V>[] table;
 	
-	public HashMap() {
+	public HashMap_v0() {
 		table = new Node[DEFAULT_CAPACITY];
 	}
 	
@@ -41,7 +40,6 @@ public class HashMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V put(K key, V value) {
-		resize();
 		int index = index(key);
 		// 取出index位置的红黑树根节点
 		Node<K, V> root = table[index];
@@ -563,92 +561,6 @@ public class HashMap<K, V> implements Map<K, V> {
 		public String toString() {
 			return "Node_"+key+"_"+value;
 		}
-	}
-	
-	private void resize() {
-		// 装填因子 <= 0.75
-		if (size / table.length <= DEFAULT_LOAD_FACTOR) return;
-		Node<K, V>[] oldTable = table;
-		table = new Node[oldTable.length << 1];
-		
-		Queue<Node<K, V>> queue = new LinkedList<>();
-		for(int i =0;i< oldTable.length;i++) {
-			if(oldTable[i] == null) continue;
-			
-			queue.offer(oldTable[i]);
-			while(!queue.isEmpty()) {
-				Node<K, V> node = queue.poll();
-				
-				if(node.left != null) {
-					queue.offer(node.left);
-				}
-				if(node.right != null) {
-					queue.offer(node.right);
-				}
-				// 挪动代码得放到最后面
-				moveNode(node);
-			}
-		}
-	}
-	
-	private void moveNode(Node<K, V> newNode) {
-		// 重置
-		newNode.parent = null;
-		newNode.left = null;
-		newNode.right = null;
-		newNode.color = RED;
-		
-		int index = index(newNode);
-		// 取出index位置的红黑树根节点
-		Node<K, V> root = table[index];
-		if (root == null) {
-			root = newNode;
-			table[index] = root;
-			afterPut(root);
-//			fixAfterPut(root);
-			return;
-		}
-		
-		// 添加新的节点到红黑树上面
-		Node<K, V> parent = root;
-		Node<K, V> node = root;
-		int cmp = 0;
-		K k1 = newNode.key;
-		int h1 = newNode.hash;
-		do {
-			parent = node;
-			K k2 = node.key;
-			int h2 = node.hash;
-			if (h1 > h2) {
-				cmp = 1;
-			} else if (h1 < h2) {
-				cmp = -1;
-			} else if (k1 != null && k2 != null 
-					&& k1 instanceof Comparable
-					&& k1.getClass() == k2.getClass()
-					&& (cmp = ((Comparable)k1).compareTo(k2)) != 0) {
-			} else {
-				cmp = System.identityHashCode(k1) - System.identityHashCode(k2);
-			}
-			
-			if (cmp > 0) {
-				node = node.right;
-			} else if (cmp < 0) {
-				node = node.left;
-			}
-		} while (node != null);
-
-		// 看看插入到父节点的哪个位置
-		newNode.parent = parent;
-		if (cmp > 0) {
-			parent.right = newNode;
-		} else {
-			parent.left = newNode;
-		}
-		
-		// 新添加节点之后的处理
-		afterPut(root);
-//		fixAfterPut(newNode);
 	}
 	
 	public void print() {
