@@ -4,6 +4,7 @@ import com.zxj.Times.Task;
 import com.zxj.file.FileInfo;
 import com.zxj.file.Files;
 import com.zxj.map.HashMap;
+import com.zxj.map.LinkedHashMap;
 import com.zxj.map.Map;
 import com.zxj.map.Map.Visitor;
 import com.zxj.map.TreeMap;
@@ -85,7 +86,7 @@ public class Main {
 
 		test1Map(new TreeMap<>(), words);
 		test1Map(new HashMap<>(), words);
-//		test1Map(new LinkedHashMap<>(), words);
+		test1Map(new LinkedHashMap<>(), words);
 	}
 	
 	static void test2(HashMap<Object, Integer> map) {
@@ -170,9 +171,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		test1();
-		test2(new HashMap<>());
-		test3(new HashMap<>());
-		test4(new HashMap<>());
-		test5(new HashMap<>());
+		test2(new LinkedHashMap<>());
+		test3(new LinkedHashMap<>());
+		test4(new LinkedHashMap<>());
+		test5(new LinkedHashMap<>());
 	}
 }

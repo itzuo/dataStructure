@@ -46,7 +46,7 @@ public class HashMap<K, V> implements Map<K, V> {
 		// 取出index位置的红黑树根节点
 		Node<K, V> root = table[index];
 		if(root == null) {
-			root = new Node<>(key, value, null);
+			root = createNode(key, value, null);
 			table[index] = root;//放入桶中
 			size++;
 			afterPut(root);// 修复红黑树的性质
@@ -102,7 +102,7 @@ public class HashMap<K, V> implements Map<K, V> {
 		} while (node != null);
 
 		// 看看插入到父节点的哪个位置
-		Node<K, V> newNode = new Node<>(key, value, parent);
+		Node<K, V> newNode = createNode(key, value, parent);
 		if (cmp > 0) {
 			parent.right = newNode;
 		} else {
@@ -177,6 +177,8 @@ public class HashMap<K, V> implements Map<K, V> {
 	private V remove(Node<K, V> node) {
 		if (node == null) return null;
 		
+		Node<K, V> willNode = node;
+		
 		size--;
 		
 		V oldValue = node.value;
@@ -209,7 +211,7 @@ public class HashMap<K, V> implements Map<K, V> {
 			}
 			
 			// 删除节点之后的处理
-			afterRemove(replacement);
+			fixAfterRemove(replacement);
 		} else if (node.parent == null) { // node是叶子节点并且是根节点
 			table[index] = null;
 		} else { // node是叶子节点，但不是根节点
@@ -220,12 +222,15 @@ public class HashMap<K, V> implements Map<K, V> {
 			}
 			
 			// 删除节点之后的处理
-			afterRemove(node);
+			fixAfterRemove(node);
 		}
+		
+		// 交给子类去处理
+		afterRemove(willNode, node);
 		return oldValue;
 	}
 	
-	private void afterRemove(Node<K, V> node) {
+	private void fixAfterRemove(Node<K, V> node) {
 		// 如果删除的节点是红色
 		// 或者 用以取代删除节点的子节点是红色
 		if (isRed(node)) {
@@ -256,7 +261,7 @@ public class HashMap<K, V> implements Map<K, V> {
 				black(parent);
 				red(sibling);
 				if (parentBlack) {
-					afterRemove(parent);
+					fixAfterRemove(parent);
 				}
 			} else { // 兄弟节点至少有1个红色子节点，向兄弟节点借元素
 				// 兄弟节点的左边是黑色，兄弟要先旋转
@@ -286,7 +291,7 @@ public class HashMap<K, V> implements Map<K, V> {
 				black(parent);
 				red(sibling);
 				if (parentBlack) {
-					afterRemove(parent);
+					fixAfterRemove(parent);
 				}
 			} else { // 兄弟节点至少有1个红色子节点，向兄弟节点借元素
 				// 兄弟节点的左边是黑色，兄弟要先旋转
@@ -520,7 +525,7 @@ public class HashMap<K, V> implements Map<K, V> {
 		return colorOf(node) == RED;
 	}
 	
-	private static class Node<K, V> {
+	protected static class Node<K, V> {
 		int hash;
 		K key;
 		V value;
@@ -564,6 +569,16 @@ public class HashMap<K, V> implements Map<K, V> {
 			return "Node_"+key+"_"+value;
 		}
 	}
+	
+	protected Node<K, V> createNode(K key, V value, Node<K, V> parent) {
+		return new Node<>(key, value, parent);
+	}
+	
+	/**
+	 * @param willNode 本来想删除的节点
+	 * @param removedNode 真正删除的节点
+	 */
+	protected void afterRemove(Node<K, V> willNode, Node<K, V> removedNode) { }
 	
 	private void resize() {
 		// 装填因子 <= 0.75
