@@ -7,29 +7,17 @@ import com.zxj.printer.BinaryTreeInfo;
 /**
  * 二叉堆（Binary Heap)最大堆
  */
-public class BinaryHeap<E> implements Heap<E> ,BinaryTreeInfo{
+public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo{
 	private E[] elements;
-	private int size;
-	private Comparator<E> comparator;
 	private static final int DEFAULt_CAPACITY = 10;
 	
 	public BinaryHeap(Comparator<E> comparator) {
-		this.comparator = comparator;
+		super(comparator);
 		this.elements = (E[]) new Object[DEFAULt_CAPACITY];
 	}
 	 
 	public BinaryHeap() {
 		this(null);
-	}
-	
-	@Override
-	public int size() {
-		return size;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return size == 0;
 	}
 
 	@Override
@@ -103,10 +91,6 @@ public class BinaryHeap<E> implements Heap<E> ,BinaryTreeInfo{
 	 */
 	private void siftDown(int index) {
 		
-	}
-
-	private int compare(E e1,E e2) {
-		return comparator != null ? comparator.compare(e1, e2) : ((Comparable<E>)e1).compareTo(e2);
 	}
 	
 	private void ensureCapacity(int capacity) {
