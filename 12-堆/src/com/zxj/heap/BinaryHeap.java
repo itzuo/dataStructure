@@ -44,12 +44,30 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo{
 
 	@Override
 	public E remove() {
-		return null;
+		emptyCheck();
+		E root = elements[0];
+		int lastIndex = --size;
+		elements[0] = elements[lastIndex];
+		elements[lastIndex] = null;
+		
+		siftDown(0);
+		return root;
 	}
 
 	@Override
 	public E replace(E element) {
-		return null;
+		elementNotNullCheck(element);
+		
+		E root = null;
+		if (size == 0) {
+			elements[0] = element;
+			size++;
+		}else {
+			root = elements[0];
+			elements[0] = element;
+			siftDown(0);
+		}
+		return root;
 	}
 	
 	/**
@@ -70,19 +88,19 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo{
 			// 重新赋值index
 			index = pindex;
 		}*/
-		E e = elements[index];
+		E element = elements[index];
 		while (index > 0) {
-			int pindex = (index - 1) >> 1;// 性质：floor( (i - 1)/2 )
-			E p = elements[pindex];
-			if(compare(e, p) <= 0) break;
+			int parentIndex = (index - 1) >> 1;// 性质：floor( (i - 1)/2 )
+			E parent = elements[parentIndex];
+			if(compare(element, parent) <= 0) break;
 			
 			// 将父元素存储在index位置
-			elements[index] = p;
+			elements[index] = parent;
 			
 			// 重新赋值index
-			index = pindex;
+			index = parentIndex;
 		}
-		elements[index] = e;
+		elements[index] = element;
 	}
 	
 	/**
@@ -90,7 +108,35 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo{
 	 * @param index
 	 */
 	private void siftDown(int index) {
-		
+		E element = elements[index];
+		int half = size >> 1; // floor(n / 2)
+		// 第一个叶子节点的索引 == 非叶子节点的数量
+		// index < 第一个叶子节点的索引
+		while(index < half) {// 必须保证index位置是非叶子节点
+			// index的节点有2种情况
+			// 1.只有左子节点
+			// 2.同时有左右子节点
+			
+			// 默认为左子节点跟它进行比较
+			int childIndex = (index << 1) + 1;// 2i + 1
+			E child = elements[childIndex];
+			
+			// 右子节点
+			int rightIndex = childIndex + 1; 
+			
+			// 选出左右子节点最大的那个
+			if (rightIndex < size && compare(elements[rightIndex], child) > 0) {
+				child = elements[childIndex = rightIndex];
+			}
+			
+			if (compare(element, child) >= 0) break;
+
+			// 将子节点存放到index位置
+			elements[index] = child;
+			// 重新设置index
+			index = childIndex;
+		}
+		elements[index] = element;
 	}
 	
 	private void ensureCapacity(int capacity) {

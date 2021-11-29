@@ -12,7 +12,13 @@ public class Main {
 		heap.add(43);
 		heap.add(50);
 		heap.add(38);
-		BinaryTrees.print(heap);
+		heap.add(10);
+		heap.add(90);
+		heap.add(65);
+		BinaryTrees.println(heap);
+//		heap.remove(); 		
+		System.out.println(heap.replace(70));
+		BinaryTrees.println(heap);
 	}
 
 }
