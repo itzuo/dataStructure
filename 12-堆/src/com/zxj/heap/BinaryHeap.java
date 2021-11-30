@@ -8,7 +8,6 @@ import com.zxj.printer.BinaryTreeInfo;
  * 二叉堆（Binary Heap)最大堆
  */
 @SuppressWarnings("unchecked")
-
 public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo{
 	private E[] elements;
 	private static final int DEFAULt_CAPACITY = 10;
