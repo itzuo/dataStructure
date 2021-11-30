@@ -7,19 +7,39 @@ import com.zxj.printer.BinaryTreeInfo;
 /**
  * 二叉堆（Binary Heap)最大堆
  */
+@SuppressWarnings("unchecked")
+
 public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo{
 	private E[] elements;
 	private static final int DEFAULt_CAPACITY = 10;
 	
-	public BinaryHeap(Comparator<E> comparator) {
+	public BinaryHeap(E[] elements,Comparator<E> comparator) {
 		super(comparator);
-		this.elements = (E[]) new Object[DEFAULt_CAPACITY];
+		if(elements == null || elements.length == 0) {
+			this.elements = (E[]) new Object[DEFAULt_CAPACITY];
+		}else {
+			size = elements.length;
+			int capacity = Math.max(elements.length, DEFAULt_CAPACITY);
+			this.elements = (E[]) new Object[capacity];
+			for (int i = 0; i < elements.length; i++) {
+				this.elements[i] = elements[i];
+			}
+			heapify();
+		}
+	}
+	
+	public BinaryHeap(E[] elements) {
+		this(elements,null);
+	}
+	
+	public BinaryHeap(Comparator<E> comparator) {
+		this(null,comparator);
 	}
 	 
 	public BinaryHeap() {
-		this(null);
+		this(null,null);
 	}
-
+	
 	@Override
 	public void clear() {
 		for (int i = 0; i < size; i++) {
@@ -68,6 +88,21 @@ public class BinaryHeap<E> extends AbstractHeap<E> implements BinaryTreeInfo{
 			siftDown(0);
 		}
 		return root;
+	}
+	
+	/**
+	 * 批量建堆
+	 */
+	private void heapify() {
+		// 自上而下的上滤
+//		for (int i = 1; i < size; i++) {
+//			siftUp(i);
+//		}
+		
+		// 自下而上的下滤
+		for (int i = (size >> 1) - 1; i >= 0; i--) {
+			siftDown(i);
+		}
 	}
 	
 	/**
